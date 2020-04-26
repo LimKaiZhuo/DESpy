@@ -1,13 +1,10 @@
-import random
 import numpy as np
 import matplotlib.pyplot as plt
-from deap import algorithms, base, creator, tools
-from timeit import default_timer as timer
-from scoop import futures
+import joblib, dill, pickle
 import openpyxl
+from deap import base, creator, tools
 from collections import Counter
 from dill import Pickler
-import joblib, dill, pickle
 from joblib.pool import CustomizablePicklingQueue
 from io import BytesIO
 from pickle import HIGHEST_PROTOCOL

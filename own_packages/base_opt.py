@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 import gurobipy
 import random
 
+
 def base_opt(lm, consumer_class, esd_assignment, full_iter=2, efficiency=None,
-             plot_mode=False, plot_dir = None, plot_subname=None,
+             plot_mode=False, plot_dir=None, plot_subname=None,
              full_return=False, verbose=0):
     total_customers = len(consumer_class)
 
@@ -15,9 +16,9 @@ def base_opt(lm, consumer_class, esd_assignment, full_iter=2, efficiency=None,
             consumer.activate_esd_constraints()
         elif esd == 2:
             consumer.activate_sp_constraints()
-            #print('{} consumer, total x = {}'.format(j + 1, lm.sum()))
+            # print('{} consumer, total x = {}'.format(j + 1, lm.sum()))
             lm[:, j] += - consumer.xp.reshape(-1)
-            #print('{} consumer, total x = {}'.format(j + 1, lm.sum()))
+            # print('{} consumer, total x = {}'.format(j + 1, lm.sum()))
         else:
             consumer.deactivate_esd_constraints()
 
@@ -28,22 +29,23 @@ def base_opt(lm, consumer_class, esd_assignment, full_iter=2, efficiency=None,
         for i in range(full_iter):
             for j in range(total_customers):
                 lmsum = np.sum(lm, axis=1).reshape((-1, 1)) - lm[:, j].reshape((-1, 1))
-                #print('{} consumer, total x = {}'.format(j + 1, lm[:,j].sum()))
-                newecv, par, tcost = consumer_class[j].optimize_continuous_with_efficiency(lm=lmsum, verbose=verbose, efficiency=efficiency)
-                #print('{} consumer, total x = {}'.format(j+1, lm.sum()))
+                # print('{} consumer, total x = {}'.format(j + 1, lm[:,j].sum()))
+                newecv, par, tcost = consumer_class[j].optimize_continuous_with_efficiency(lm=lmsum, verbose=verbose,
+                                                                                           efficiency=efficiency)
+                # print('{} consumer, total x = {}'.format(j+1, lm.sum()))
                 lm[:, j] = newecv.reshape(-1)
-                #print('{} consumer, total x = {}'.format(j + 1, lm[:, j].sum()))
+                # print('{} consumer, total x = {}'.format(j + 1, lm[:, j].sum()))
                 totalcost_store.append(tcost)
                 par_store.append(par)
     else:
         for i in range(full_iter):
             for j in range(total_customers):
                 lmsum = np.sum(lm, axis=1).reshape((-1, 1)) - lm[:, j].reshape((-1, 1))
-                #print('{} consumer, total x = {}'.format(j + 1, lm[:,j].sum()))
+                # print('{} consumer, total x = {}'.format(j + 1, lm[:,j].sum()))
                 newecv, par, tcost = consumer_class[j].optimize_continuous(lm=lmsum, verbose=verbose)
-                #print('{} consumer, total x = {}'.format(j+1, lm.sum()))
+                # print('{} consumer, total x = {}'.format(j+1, lm.sum()))
                 lm[:, j] = newecv.reshape(-1)
-                #print('{} consumer, total x = {}'.format(j + 1, lm[:, j].sum()))
+                # print('{} consumer, total x = {}'.format(j + 1, lm[:, j].sum()))
                 totalcost_store.append(tcost)
                 par_store.append(par)
 

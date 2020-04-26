@@ -14,6 +14,50 @@ def initialize_consumer_class(excel_path, save_path):
 
 
 def save_consumer_class_to_file(excel_path, solar_path, name, sigma, save_path, k):
+    '''
+    Reads the excel file which contains the consumer data.
+
+    There are 6 worksheets for each consumer class (high, middle, low).
+
+    S_am: A 2D array of dimensions i rows × j columns, where
+    i = number of number of shiftable appliances and
+    j = number of households in each consumer group m (1 to 3).
+    Each element denotes the earliest starting 1-hour period (a) of shiftable appliance i in household j
+    (where 0 = 12mn - 1am, 1 = 1am - 2am etc.).
+
+    S_bm: A 2D array of dimensions i rows × j columns, where
+    i = number of number of shiftable appliances and
+    j = number of households in each consumer group m (1 to 3).
+    Each element denotes the latest ending 1-hour period (b) of shiftable appliance i in household j
+    (where 0 = 12mn - 1am, 1 = 1am - 2am etc.).
+
+    S_cm: A 2D array of dimensions i rows × j columns, where
+    i = number of number of shiftable appliances and
+    j = number of households in each consumer group m (1 to 3).
+    Each element denotes the daily usage duration (C) of shiftable appliance i in household j
+    (in hours).
+
+    S_dm: A 2D array of dimensions i rows × j columns, where
+    i = number of number of shiftable appliances and
+    j = number of households in each consumer group m (1 to 3).
+    Each element denotes the daily total load (D) of shiftable appliance i in household j
+    (in watt-hours or Wh).
+
+    NSm: A 2D array of dimensions j rows × h columns, where
+    j = number of households in each consumer group m (= 30) and
+    h = number of 1-hour periods in a day (= 24).
+    Each element denotes the hourly load profile of all nonshiftable appliances in household j combined
+    (in watt-hours or Wh).
+
+    S2NSm: A 2D array of dimensions j rows × h columns, where
+    j = number of households in each consumer group m (= 30) and
+    h = number of 1-hour periods in a day (= 24).
+    Each element denotes the hourly load profile of all "previously shiftable" appliances in
+    household j combined (in watt-hours or Wh), which is used to generate an alternative nonshiftable
+    array if household j was to opt out of demand scheduling program (such that all shiftable loads
+    are converted to nonshiftable). In this case, without loss of generality the usage of each
+    "previously shiftable" appliance i begins at 1-hour period 'a' for duration 'C'.
+    '''
     read_consumer_excel(consumer_excel_file=excel_path, solar_excel_file=solar_path,
                         sigma=sigma, k=k,
                         save_path=save_path)
@@ -30,6 +74,9 @@ def execute_base_opt(esd_av, cf, save_path,
                      dir_name,
                      full_iter=2,excel_name='base_opt_results',
                      save_mode=False, efficiency=None, new_save_path=None):
+    '''
+    Runs the base opt which is the operational phase and prints the results to an excel file.
+    '''
     with open(save_path, "rb") as f:
         consumer_class = pickle.load(f)
 

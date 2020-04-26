@@ -1,9 +1,5 @@
 import numpy as np
 import pandas as pd
-from skopt import gp_minimize, dummy_minimize
-from skopt.space import Real
-from skopt.utils import use_named_args
-from scipy.optimize import minimize
 import pickle
 
 from own_packages.consumer_class import Consumer
@@ -61,10 +57,6 @@ def read_consumer_excel(consumer_excel_file, solar_excel_file, sigma, k, save_pa
     xt = xt * sigma + (1 - sigma) * xt_no_ecs
     max_x = max(xt)
 
-    # daily bills average, actual = 2160 / 365 * 1.3 = 7.6932 $ per day
-    # std of bills,  actual = 15.929*0.128*1.3 = 2.6506
-    # avg_bills = 7.172984420593167
-    # std = 2.907298646335173
     w1 = 2218
     w2 = 33.69477939605713
     for consumer in consumer_class:

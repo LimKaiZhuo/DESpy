@@ -4,6 +4,12 @@ import cvxpy as cp
 
 class Consumer:
     def __init__(self, ns, a, b, c, d, group, c_idx, xp, sigma, xt_no_ecs, k=1):
+        '''
+        Consumer class contains all the information for one consumer.
+        It contains several methods used for the running of base opt.
+        The most important is optimize_continuous, which performs the convex optimization which is used in the iterative
+        base opt procedure.
+        '''
         self.c_idx = c_idx
         self.k = k
         self.ns = np.reshape(ns, (-1, 1))
@@ -61,7 +67,8 @@ class Consumer:
         self.xn_init_first = self.ns + t @ self.e
 
         # Init xn assuming lm = 0
-        self.scale = 1000  # Initial scaling. Will be changed later in the preprocess function
+        # Temporary to give an initial guess for faster base opt convergence
+        self.scale = 1000
         self.coef0 = 129.592
         self.coef1 = 9.99347 * (10 ** -6) * self.scale
         self.coef2 = 1.77324 * (self.scale ** 2) * (10 ** -14)
@@ -271,7 +278,7 @@ class Consumer:
             xn = self.ns + t @ self.e + xnb_charge/efficiency + xnb_discharge*efficiency
             x = xn + lm
         elif self.sp:
-            # SP constraints (Which is ESD constraints, but SP can be a different model of battery with different params
+            # SP constraints
             # ESD variable to optimize
             qss = cp.Variable()
             xnb_charge = cp.Variable(shape=(24, 1))
