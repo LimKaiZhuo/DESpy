@@ -9,6 +9,6 @@ as well as the peak-to-average ratio (PAR) for a residential population. Three l
 - *Solo Optimization* at the individual customer level using convex programming (CVXPY library and GUROBI solver);
 
 - *Base Optimization* at the residential grid level, in which for each iteration each customer sequentially determines his
-energy consumption vector (ECV) based on the exogenous demand (from other consumers) at prior iterations (Game Theory); and
+energy consumption vector based on the exogenous demand (from other consumers) at prior iterations; and
 
-- *GA Optimization* where the allocation of ESDs amongst the population is determined using genetic algorithms (DEAP library).
+- *GA Optimization* where the allocation of ES and SP amongst the population is determined using genetic algorithms (DEAP library).
