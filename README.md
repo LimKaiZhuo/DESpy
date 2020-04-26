@@ -1,7 +1,9 @@
 # DESpy
 
-The objectives of this project is to determine the optimal electrical demand scheduling (DS) and the optimal allocation of
-electrical storage devices (ES) and solar photovoltaics(PV), such that it minimizes the total electrical generation cost (TEC)
+_Optimal Allocation of Energy Storage and Solar Photovoltaic Systems with Residential Demand Scheduling_
+
+The objectives of this project is to determine the optimal energy demand scheduling (DS) and the optimal allocation of
+electrical storage devices (ES) and solar photovoltaics (PV), such that it minimizes the total electrical generation cost (TEC)
 as well as the peak-to-average ratio (PAR) for a residential population. Three levels of optimization are conducted:
 
 - *Solo Optimization* at the individual customer level using convex programming (CVXPY library and GUROBI solver);
